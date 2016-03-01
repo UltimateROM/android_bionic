@@ -7,7 +7,6 @@ ifneq (,$(filter $(TARGET_ARCH),x86 x86_64))
 # Clang has wrong long double sizes for x86.
 libm_clang := false
 endif
-
 # -----------------------------------------------------------------------------
 # libm.a
 # -----------------------------------------------------------------------------
@@ -16,6 +15,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := libm
 
 LOCAL_SRC_FILES := \
+    fpclassify.c \
     upstream-freebsd/lib/msun/bsdsrc/b_exp.c \
     upstream-freebsd/lib/msun/bsdsrc/b_log.c \
     upstream-freebsd/lib/msun/bsdsrc/b_tgamma.c \

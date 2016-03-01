@@ -3,6 +3,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:= \
+    ../libc/bionic/strrchr.cpp \
     debugger.cpp \
     dlfcn.cpp \
     linker.cpp \
