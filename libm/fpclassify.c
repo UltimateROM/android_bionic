@@ -158,3 +158,6 @@ __strong_alias(isnanl, __isnanl);
 __strong_alias(isfinitel, __isfinitel);
 __strong_alias(isnormall, __isnormall);
 #endif
+
+__strong_alias(isinf, __isinfl);
+__strong_alias(isnan, __isnanl);

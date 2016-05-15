@@ -31,6 +31,8 @@
 #include <math.h>
 #include <machine/ieee.h>
 
+#define USED __attribute((used))
+
 // These aren't declared in our <math.h>.
 extern "C" int __isinf(double);
 extern "C" int __isnan(double);
@@ -45,7 +47,7 @@ union double_u {
   ieee_double bits;
 };
 
-int __fpclassifyd(double d) {
+USED int __fpclassifyd(double d) {
   double_u u;
   u.d = d;
   if (u.bits.dbl_exp == 0) {
@@ -58,7 +60,7 @@ int __fpclassifyd(double d) {
 }
 __strong_alias(__fpclassify, __fpclassifyd); // glibc uses __fpclassify, BSD __fpclassifyd.
 
-int __fpclassifyf(float f) {
+USED int __fpclassifyf(float f) {
   float_u u;
   u.f = f;
   if (u.bits.sng_exp == 0) {
@@ -70,44 +72,44 @@ int __fpclassifyf(float f) {
   return FP_NORMAL;
 }
 
-int __isinf(double d) {
+USED int __isinf(double d) {
   return (__fpclassifyd(d) == FP_INFINITE);
 }
 __strong_alias(isinf, __isinf);
 
-int __isinff(float f) {
+USED int __isinff(float f) {
   return (__fpclassifyf(f) == FP_INFINITE);
 }
 __strong_alias(isinff, __isinff);
 
-int __isnan(double d) {
+USED int __isnan(double d) {
   return (__fpclassifyd(d) == FP_NAN);
 }
 __strong_alias(isnan, __isnan);
 
-int __isnanf(float f) {
+USED int __isnanf(float f) {
   return (__fpclassifyf(f) == FP_NAN);
 }
 __strong_alias(isnanf, __isnanf);
 
-int __isfinite(double d) {
+USED int __isfinite(double d) {
   int type = __fpclassifyd(d);
   return ((type != FP_NAN) && (type != FP_INFINITE));
 }
 __strong_alias(isfinite, __isfinite);
 
-int __isfinitef(float f) {
+USED int __isfinitef(float f) {
   int type = __fpclassifyf(f);
   return ((type != FP_NAN) && (type != FP_INFINITE));
 }
 __strong_alias(isfinitef, __isfinitef);
 
-int __isnormal(double d) {
+USED int __isnormal(double d) {
   return (__fpclassifyd(d) == FP_NORMAL);
 }
 __strong_alias(isnormal, __isnormal);
 
-int __isnormalf(float f) {
+USED int __isnormalf(float f) {
   return (__fpclassifyf(f) == FP_NORMAL);
 }
 __strong_alias(isnormalf, __isnormalf);
@@ -123,32 +125,20 @@ union long_double_u {
 
 #define zero_frac(b) ((b.ext_fracl | b.ext_fraclm | b.ext_frachm | b.ext_frach) == 0)
 
-int __fpclassifyl(long double ld) {
-  long_double_u u;
-  u.ld = ld;
-  if (u.bits.ext_exp == 0) {
-    return zero_frac(u.bits) ? FP_ZERO : FP_SUBNORMAL;
-  }
-  if (u.bits.ext_exp == EXT_EXP_INFNAN) {
-    return zero_frac(u.bits) ? FP_INFINITE : FP_NAN;
-  }
-  return FP_NORMAL;
-}
-
-int __isinfl(long double ld) {
+USED int __isinfl(long double ld) {
   return (__fpclassifyl(ld) == FP_INFINITE);
 }
 
-int __isnanl(long double ld) {
+USED int __isnanl(long double ld) {
   return (__fpclassifyl(ld) == FP_NAN);
 }
 
-int __isfinitel(long double ld) {
+USED int __isfinitel(long double ld) {
   int type = __fpclassifyl(ld);
   return ((type != FP_NAN) && (type != FP_INFINITE));
 }
 
-int __isnormall(long double ld) {
+USED int __isnormall(long double ld) {
   return (__fpclassifyl(ld) == FP_NORMAL);
 }
 
@@ -168,3 +158,12 @@ __strong_alias(isinfl, __isinfl);
 __strong_alias(isnanl, __isnanl);
 __strong_alias(isfinitel, __isfinitel);
 __strong_alias(isnormall, __isnormall);
+
+
+USED int isnan(double ld) {
+	return (__fpclassifyd(ld) == FP_NAN);
+}
+
+USED int isinf(double ld) {
+	return (__fpclassifyd(ld) == FP_INFINITE);
+}

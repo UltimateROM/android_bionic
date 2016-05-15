@@ -14,8 +14,9 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := libm
 
+#    fpclassify.c \
+
 LOCAL_SRC_FILES := \
-    fpclassify.c \
     upstream-freebsd/lib/msun/bsdsrc/b_exp.c \
     upstream-freebsd/lib/msun/bsdsrc/b_log.c \
     upstream-freebsd/lib/msun/bsdsrc/b_tgamma.c \

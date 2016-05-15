@@ -1320,6 +1320,40 @@ $(eval $(call patch-up-arch-specific-flags,LOCAL_CFLAGS,libc_common_cflags))
 $(eval $(call patch-up-arch-specific-flags,LOCAL_SRC_FILES,libc_arch_static_src_files))
 include $(BUILD_STATIC_LIBRARY)
 
+# ========================================================
+# libc_nolto.a
+# ========================================================
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := \
+    $(libc_arch_static_src_files) \
+    bionic/malloc_debug_common.cpp \
+    bionic/libc_init_static.cpp \
+
+LOCAL_CFLAGS := $(libc_common_cflags) \
+    -DLIBC_STATIC \
+
+LOCAL_CONLYFLAGS := $(libc_common_conlyflags)
+LOCAL_CPPFLAGS := $(libc_common_cppflags)
+LOCAL_C_INCLUDES := $(libc_common_c_includes)
+LOCAL_MODULE := libc_nolto
+LOCAL_CLANG := $(use_clang)
+LOCAL_ADDITIONAL_DEPENDENCIES := $(libc_common_additional_dependencies)
+LOCAL_WHOLE_STATIC_LIBRARIES := libc_common
+
+ifneq ($(MALLOC_IMPL),dlmalloc)
+LOCAL_WHOLE_STATIC_LIBRARIES += libjemalloc
+endif
+
+LOCAL_CXX_STL := none
+LOCAL_SYSTEM_SHARED_LIBRARIES :=
+LOCAL_ADDRESS_SANITIZER := false
+LOCAL_NATIVE_COVERAGE := $(bionic_coverage)
+
+$(eval $(call patch-up-arch-specific-flags,LOCAL_CFLAGS,libc_common_cflags))
+$(eval $(call patch-up-arch-specific-flags,LOCAL_SRC_FILES,libc_arch_static_src_files))
+include $(BUILD_STATIC_LIBRARY)
+
 
 # ========================================================
 # libc.so
