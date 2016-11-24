@@ -62,6 +62,10 @@ LOCAL_CPPFLAGS += -DTARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS
 endif
 endif
 
+ifeq ($(TARGET_ENABLE_NON_PIE_SUPPORT),true)
+ LOCAL_CFLAGS += -DENABLE_NON_PIE_SUPPORT
+endif
+
 # We need to access Bionic private headers in the linker.
 LOCAL_CFLAGS += -I$(LOCAL_PATH)/../libc/
 
