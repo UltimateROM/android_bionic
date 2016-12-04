@@ -38,12 +38,9 @@ int clock_gettime(int clock_id, timespec* tp) {
 }
 
 int gettimeofday(timeval* tv, struct timezone* tz) {
-  auto vdso_gettimeofday = reinterpret_cast<decltype(&gettimeofday)>(
-    __libc_globals->vdso[VDSO_GETTIMEOFDAY].fn);
-  if (__predict_true(vdso_gettimeofday)) {
-    return vdso_gettimeofday(tv, tz);
-  }
-  return __gettimeofday(tv, tz);
+   int (*vdso_gettimeofday)(timeval*, struct timezone*) =
+       reinterpret_cast<int (*)(timeval*, struct timezone*)>(vdso.entries[VDSO_GETTIMEOFDAY].fn);
+   return vdso_gettimeofday(tv, tz);
 }
 
 void __libc_init_vdso(libc_globals* globals, KernelArgumentBlock& args) {
