@@ -61,10 +61,8 @@ endif
 # We need to access Bionic private headers in the linker.
 LOCAL_CFLAGS += -I$(LOCAL_PATH)/../libc/
 
-ifneq ($(LINKER_NON_PIE_EXECUTABLES_HEADER_DIR),)
-    LOCAL_CFLAGS += -DENABLE_NON_PIE_SUPPORT
-    LOCAL_C_INCLUDES += $(LINKER_NON_PIE_EXECUTABLES_HEADER_DIR)
-    LOCAL_SRC_FILES += linker_non_pie.cpp
+ifeq ($(TARGET_ENABLE_NON_PIE_SUPPORT),true)
+ LOCAL_CFLAGS += -DENABLE_NON_PIE_SUPPORT
 endif
 
 ifneq ($(LINKER_FORCED_SHIM_LIBS),)
