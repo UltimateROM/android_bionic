@@ -46,7 +46,6 @@ libc_common_flags = [
     "-Werror=pointer-to-int-cast",
     "-Werror=int-to-pointer-cast",
     "-Werror=type-limits",
-    "-Werror",
 ]
 
 // Define some common cflags

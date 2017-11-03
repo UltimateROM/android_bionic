@@ -225,25 +225,6 @@ static prop_area* map_prop_area_rw(const char* filename, const char* context,
     return nullptr;
   }
 
-  if (context) {
-    if (fsetxattr(fd, XATTR_NAME_SELINUX, context, strlen(context) + 1, 0) != 0) {
-      __libc_format_log(ANDROID_LOG_ERROR, "libc",
-                        "fsetxattr failed to set context (%s) for \"%s\"", context, filename);
-      /*
-       * fsetxattr() will fail during system properties tests due to selinux policy.
-       * We do not want to create a custom policy for the tester, so we will continue in
-       * this function but set a flag that an error has occurred.
-       * Init, which is the only daemon that should ever call this function will abort
-       * when this error occurs.
-       * Otherwise, the tester will ignore it and continue, albeit without any selinux
-       * property separation.
-       */
-      if (fsetxattr_failed) {
-        *fsetxattr_failed = true;
-      }
-    }
-  }
-
   if (ftruncate(fd, PA_SIZE) < 0) {
     close(fd);
     return nullptr;
