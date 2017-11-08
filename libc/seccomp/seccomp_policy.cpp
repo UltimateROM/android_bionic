@@ -111,8 +111,8 @@ static bool install_filter(filter const& f) {
     };
 
     if (prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, &prog) < 0) {
-        PLOG(INFO) << "Could not set seccomp filter of size " << f.size();
-        return true;
+        PLOG(FATAL) << "Could not set seccomp filter of size " << f.size();
+        return false;
     }
 
     LOG(INFO) << "Global filter of size " << f.size() << " installed";
