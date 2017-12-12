@@ -106,7 +106,6 @@ cc_binary {
             },
         }
     },
-
     cppflags: ["-Wold-style-cast"],
 
     // we are going to link libc++_static manually because
