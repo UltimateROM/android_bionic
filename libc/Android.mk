@@ -615,6 +615,10 @@ ifeq ($(BOARD_USES_LEGACY_MMAP),true)
   libc_common_cflags += -DLEGACY_MMAP
 endif
 
+ifeq ($(ENABLE_LTO),true)
+  libc_common_cflags += -DNEEDS_LTO_WORKAROUND
+endif
+
 # Define some common conlyflags
 libc_common_conlyflags := \
     -std=gnu99

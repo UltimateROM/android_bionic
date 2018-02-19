@@ -160,6 +160,7 @@ __strong_alias(isfinitel, __isfinitel);
 __strong_alias(isnormall, __isnormall);
 
 
+#ifdef NEEDS_LTO_WORKAROUND
 USED int isnan(double ld) {
 	return (__fpclassifyd(ld) == FP_NAN);
 }
@@ -167,3 +168,4 @@ USED int isnan(double ld) {
 USED int isinf(double ld) {
 	return (__fpclassifyd(ld) == FP_INFINITE);
 }
+#endif
